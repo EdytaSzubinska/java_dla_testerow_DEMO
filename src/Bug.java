@@ -28,4 +28,3 @@ public class Bug {
         System.out.println("Email: " + email);
     }
 }
-
