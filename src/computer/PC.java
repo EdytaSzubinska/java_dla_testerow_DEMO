@@ -2,64 +2,70 @@ package computer;
 
 public class PC extends Computer {
 
-    private boolean power;
+    private boolean isTurnOn;
 
-    public PC(String name, String type, int hdd, int ram) {
+    public PC(String name, String type, Hdd hdd, Ram ram) {
         super(name, type, hdd, ram);
-        power = false;
+        isTurnOn = false;
+    }
+
+    public void setPowerSupply(boolean powerSupply) {
+        isTurnOn = powerSupply;
     }
 
     public void showComputerName() {
         System.out.println(name);
     }
 
-    public void setPower(boolean power) {
-        this.power = power;
+    public int volumeUp(){
+        return volumelevel +=1 ;
     }
 
-    public int volumeUp() {
-        return volumeLevel += 1;
+    @Override
+    public int volumeUp(int newVolumeLevel) {
+        if(newVolumeLevel > 0) {
+            if ((volumelevel + newVolumeLevel) <= 100) {
+                return volumelevel +=newVolumeLevel;
+            } else {
+                return volumelevel = 100;
+            }
+        } else {
+            System.out.println("Należy wprowadzić liczbę całkowitą dodatnią");
+            return volumelevel;
+        }
     }
 
     @Override
     public int volumeDown() {
-        volumeLevel -= 1;
-        if (volumeLevel <= 0) {
-            return 0;
+        volumelevel -= 1;
+        if(volumelevel <= 0) {
+            return  0;
         } else {
-            return volumeLevel;
+            return volumelevel;
         }
     }
 
     @Override
-    public int volumeUp(int newVolume) {
-        volumeLevel = volumeLevel + newVolume;
-        if (volumeLevel >= 100) {
-            return 100;
+    public int volumeDown(int newVolumeLevel) {
+        if (newVolumeLevel > 0) {
+            if ((volumelevel - newVolumeLevel) > 0) {
+                return volumelevel -= newVolumeLevel;
+            } else {
+                return volumelevel = 0;
+            }
         } else {
-            return volumeLevel;
-        }
-    }
-
-    @Override
-    public int volumeDown(int newVolume) {
-        volumeLevel = volumeLevel - newVolume;
-        if (volumeLevel <= 0) {
-            return 0;
-        } else {
-            return volumeLevel;
+            System.out.println("Należy wprowadzić liczbę całkowitą dodatnią");
+            return volumelevel;
         }
     }
 
     @Override
     public void switchOn() {
         System.out.println("Checking power supply");
-
-        if (power) {
+        if (isTurnOn) {
             super.switchOn();
         } else {
-            System.out.println("Connect the PC to the power!");
+            System.out.println("Power supply missing!");
         }
     }
 }
-

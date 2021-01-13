@@ -1,45 +1,55 @@
 package computer;
 
-import computer.PC;
-import computer.Laptop;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainApp {
 
+    private static boolean count;
+
     public static void main(String[] args) {
 
-        PC officeComputer1 = new PC("Office computer 1", "HP", 500, 128);
-        Computer officeComputer2 = new PC("Office computer 2", "HP", 500, 128);
-        Computer officeComputer3 = new PC("Office computer 3", "HP", 500, 128);
-        Computer gamingLaptop1 = new Laptop("XGames", "HM GAMES", 500, 256, 50);
-        Computer macbook = new Laptop("MB PRO", "HM GAMES", 500, 256, 50);
+        List<Computer> computers = new ArrayList<>();
+        computers.add(new Laptop("Predator", "300", new Hdd, ("Acer", 1024), new Ram ("XY", 128), 100));
+        computers.add(new Laptop("Helios", "600", new Hdd, ("Acer", 512), new Ram("AB", 128), 100));
+        computers.add(new Laptop("HP", "Gaming", new Hdd, ("HP", 512), new Ram("CD", 128), 100));
+        computers.add(new Laptop("Macbook", "Air", new Hdd, ("MB", 256), new Ram("AB", 64), 100));
+        computers.add(new PC("PC ABC", "123", new Hdd, ("Acer", 512), new Ram("XY", 1024), 100));
+        computers.add(new PC("PC XYZ", "321", new Hdd, ("Acer", 1024), new Ram("AB", 128), 100));
+        computers.add(new PC("PC 123", "852", new Hdd, ("Acer", 512), new Ram("ZZ", 128), 100));
 
-        Computer[] computers = {officeComputer1, officeComputer2, officeComputer3, gamingLaptop1, macbook};
+        long count = computers.stream()
+                .filter(computer -> computer.getRam().getSize() > 128)
+                .count();
 
-        for (Computer computer : computers) {
-            computer.switchOff();
+        System.out.println(count);
+
+        computers.stream()
+                .map(Computer::getType)
+                .forEach(System.out::println);
+
+        Computer computer = computers.stream()
+                .max(Comparator.comparingInt(computer -> computer.getRam().getSize()))
+                .orElseThrow(() -> new IllegalStateException("There is no such computer!"));
+
+        System.out.println(computer.getName());
+
+        List<Computer> collect = computers.stream()
+                .filter((computer -> computer.getHdd().getSize() < 500))
+                .collect(Collectors.toList());
+
+        for (Computer computer : collect) {
+            System.out.println(computer.getName() + " " + computer.getHdd());
         }
 
-        officeComputer1.showComputerName();
-        ((PC) officeComputer2).showComputerName();
+        List<Computer> sorted = computers.stream()
+                .sorted(Comparator.comparing(Computer::getName).thenComparing(Computer::getType))
+                .collect(Collectors.toList());
 
-        Computer officeComputer = new PC("Office computer 3", "HP", 500, 128);
-        Computer gamingLaptop = new Laptop("XGames", "HM GAMES", 500, 256, 50);
-
-        System.out.println(officeComputer.volumeUp());
-        System.out.println(gamingLaptop.volumeUp());
-
-        officeComputer.volumeUp();
-        System.out.println(officeComputer.getVolumeLevel());
-        officeComputer.volumeUp(25);
-        System.out.println(officeComputer.getVolumeLevel());
-        officeComputer.volumeUp(40);
-        System.out.println(officeComputer.getVolumeLevel());
-        officeComputer.volumeDown();
-        System.out.println(officeComputer.getVolumeLevel());
-        officeComputer.volumeDown(30);
-        System.out.println(officeComputer.getVolumeLevel());
-        officeComputer.volumeDown(20);
-        System.out.println(officeComputer.getVolumeLevel());
-
+        for (Computer computer : sorted) {
+            System.out.println(computer.getName() + " " + computer.getType());
+        }
     }
 }

@@ -4,18 +4,18 @@ abstract public class Computer {
 
     protected String name;
     protected String type;
-    protected int hdd;
-    protected int ram;
+    protected Hdd hdd;
+    protected Ram ram;
     protected boolean state;
-    protected int volumeLevel;
+    protected int volumelevel;
 
-    public Computer(String name, String type, int hdd, int ram) {
+    public Computer(String name, String type, Hdd hdd, Ram ram) {
         this.name = name;
         this.type = type;
         this.hdd = hdd;
         this.ram = ram;
         this.state = false;
-        this.volumeLevel = 0;
+        this.volumelevel = 0;
     }
 
     public String getName() {
@@ -26,44 +26,28 @@ abstract public class Computer {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public void setType(String type) {
         this.type = type;
     }
 
-    public int getHdd() {
-        return hdd;
-    }
-
-    public void setHdd(int hdd) {
+    public void setHdd(Hdd hdd) {
         this.hdd = hdd;
     }
 
-    public int getRam() {
-        return ram;
-    }
-
-    public void setRam(int ram) {
+    public void setRam(Ram ram) {
         this.ram = ram;
     }
 
-    public boolean isState() {
-        return state;
+    public String getType() {
+        return type;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public Hdd getHdd() {
+        return hdd;
     }
 
-    public int getVolumeLevel() {
-        return volumeLevel;
-    }
-
-    public void setVolumeLevel(int volumeLevel) {
-        this.volumeLevel = volumeLevel;
+    public Ram getRam() {
+        return ram;
     }
 
     public void switchOn() {
@@ -71,8 +55,7 @@ abstract public class Computer {
         state = true;
     }
 
-    public void switchOff() {
-        System.out.println("Wyłączam komputer: " + name);
+    public void switchOff(){
         state = false;
     }
 
@@ -82,10 +65,9 @@ abstract public class Computer {
 
     public abstract int volumeUp();
 
+    public abstract int volumeUp(int i);
+
     public abstract int volumeDown();
 
-    public abstract int volumeUp(int newVolume);
-
-    public abstract int volumeDown(int newVolume);
+    public abstract int volumeDown(int i);
 }
-
